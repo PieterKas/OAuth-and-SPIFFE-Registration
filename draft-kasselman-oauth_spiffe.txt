@@ -13,7 +13,21 @@ Expires: 13 November 2025
 
 Abstract
 
-   TODO Abstract
+   The OAuth framework is a widely deployed authorization protocol
+   standard that enables applications to obtain limited access to user
+   resources.  OAuth clients are applications that request access to
+   protected resources on behalf of a user by obtaining authorization
+   from an OAuth authorization server.  OAuth clients must be registered
+   with the OAuth authorization server.  Registering and managing OAuth
+   client IDs and clien secrets poses significant operational challenges
+   in dynamically scaling environments.  The Secure Production Identity
+   Framework For Everyone (SPIFFE) is a graduated Cloud Native Compute
+   Foundation project that is designed to dynamically dynamically attest
+   and verify workload identity, assign identifiers, and issue
+   credentials to workloads.  This draft describes how workloads with
+   SPIFFE credentials can be used with OAuth to lessen the operational
+   burden of client registration and remove the need for additional
+   client secrets.
 
 About This Document
 
