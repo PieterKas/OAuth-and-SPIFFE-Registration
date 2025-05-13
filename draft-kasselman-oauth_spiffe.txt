@@ -2,10 +2,10 @@
 
 
 
-Network Working Group                                          PieterKas
+Network Working Group                                       P. Kasselman
 Internet-Draft                                                     SPIRL
-Intended status: Informational                               12 May 2025
-Expires: 13 November 2025
+Intended status: Informational                               13 May 2025
+Expires: 14 November 2025
 
 
                             OAuth and SPIFFE
@@ -21,13 +21,13 @@ Abstract
    with the OAuth authorization server.  Registering and managing OAuth
    client IDs and clien secrets poses significant operational challenges
    in dynamically scaling environments.  The Secure Production Identity
-   Framework For Everyone (SPIFFE) is a graduated Cloud Native Compute
-   Foundation project that is designed to dynamically dynamically attest
-   and verify workload identity, assign identifiers, and issue
-   credentials to workloads.  This draft describes how workloads with
-   SPIFFE credentials can be used with OAuth to lessen the operational
-   burden of client registration and remove the need for additional
-   client secrets.
+   Framework For Everyone ([SPIFFE]) is a graduated Cloud Native Compute
+   Foundation project that is designed to dynamically attest and verify
+   workload identity, assign identifiers, and issue credentials to
+   workloads.  This draft describes how workloads with SPIFFE
+   credentials can be used with OAuth to lessen the operational burden
+   of client registration, remove the need for additional client secrets
+   and be used in OAuth flows that require client authentication.
 
 About This Document
 
@@ -56,7 +56,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 13 November 2025.
+   This Internet-Draft will expire on 14 November 2025.
 
 Copyright Notice
 
@@ -76,15 +76,77 @@ Table of Contents
 
    1.  Introduction
    2.  Conventions and Definitions
-   3.  Security Considerations
-   4.  IANA Considerations
-   5.  Normative References
+   3.  Register On First Use
+     3.1.  Client Authentication
+     3.2.  Authorization Server Processing
+   4.  Additional metadata
+     4.1.  The redirect URI
+   5.  Security Considerations
+   6.  IANA Considerations
+   7.  References
+     7.1.  Normative References
+     7.2.  Informative References
    Acknowledgments
    Author's Address
 
 1.  Introduction
 
-   TODO Introduction
+   The OAuth framework [RFC6749] is popular and broadly deployed.  It
+   defines seperate roles for the authorization server, resource server,
+   resource owner and the client.  In OAuth, the client requests access
+   to resources controlled by the resource owner and hosted by the
+   resource server, and is issued a different set of credentials than
+   those of the resource owner [RFC6749].  The OAuth client is
+   identified with a client_id and supports multiple authentication
+   methods, including a client_secret, which is commonly used.  Managing
+   client_ids and client_secrets rerpesents operational challenges,
+   including manual registrations, lifecycle management and the
+   increasing burden of managing client_secrets used for authenticating
+   OAuth client.  Modern cloud-native architectural patterns like micro-
+   services and other short lived, ephemeral compute concepts, allows
+   for on-demand scaling of OAuth clients, which in turn increases the
+   burden on managing the lifecycle of the client_id and client_secret.
+
+   The Secure Production Identity Production Framework (SPIFFE) is a
+   graduated project in the Cloud Native Compute Foundation (CNCF) that
+   defines a standard for managing the identity lifecycle of workloads
+   in modern cloud-native compute environments.  It is designed to
+   dynamically attest and verify a workloads, assign identifiers, issue
+   credentials and manage the lifecycle of those credentials in
+   dynamically scaling environments without manual intervention.  The
+   identifier is in the form of a URI, while the credentials includes
+   profiles of JWT and X.509 certificates, known as JWT-SVID and
+   X.509-SVIDs.  These credetnials are used by workloads to authenticate
+   to eacch other or to services that it needs to access.  SPIFFE is
+   commonly used to secure workload identities in large scale production
+   systems that needs to scale dynamically.
+
+   Workloads provisioned with SPIFFE identiffiers and credentials often
+   need to access OAuth protected resources.  When they interact with
+   OAuth protected resources, they assume the role of an OAuth client
+   and needs to be registered with the OAuth authorization server.  This
+   requries an additional manual step, or an additional registration
+   flow (e.g. Dynamic Client Registration [RFC7591] ).  The registration
+   step results in the provisioning of an addditional identifier (the
+   client_id), and frequently an additional secret (the client_secret)
+   that must be secured.  The additional secrets adds to the overall
+   challenge of secrets sprawl in large scale environments that degrades
+   the risk profile for an environment.
+
+   OAuth deployments in which SPIFFE is already deployed can leverage
+   the SPIFFE identifiers and credentials already issued to workloads by
+   establishing a trust relationship with the SPIFFE issuer.  When a
+   workload presents a SPIFFE credential as part of authorization
+   request to the OAuth server, the OAuth authorization server verifies
+   the JWT or X.509 certificate, ensuring it was issued by a trusted
+   issuer.  The authorization server registers the SPIFFE ID as a client
+   ID, along with additional metadata, if needed, before completing the
+   authorization request and issueing an Access Token.  This "register-
+   on-first-use" pattern removes the need for manual pre-registration or
+   additional roundtrips and credential registration.  It leverages
+   existing credentials that were issued dynamically and reduces the
+   dependence on static secrets which are at higher risk of compromise
+   than short lived dynamic credentials.
 
 2.  Conventions and Definitions
 
@@ -94,24 +156,103 @@ Table of Contents
    BCP 14 [RFC2119] [RFC8174] when, and only when, they appear in all
    capitals, as shown here.
 
-3.  Security Considerations
+3.  Register On First Use
+
+3.1.  Client Authentication
+
+3.2.  Authorization Server Processing
+
+4.  Additional metadata
+
+4.1.  The redirect URI
+
+5.  Security Considerations
 
    TODO Security
 
-4.  IANA Considerations
+6.  IANA Considerations
 
    This document has no IANA actions.
 
-5.  Normative References
+7.  References
+
+7.1.  Normative References
+
+   [Headless_JWT]
+              "Headless-JWT", n.d., <foo>.
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
               DOI 10.17487/RFC2119, March 1997,
               <https://www.rfc-editor.org/rfc/rfc2119>.
 
+   [RFC6749]  Hardt, D., Ed., "The OAuth 2.0 Authorization Framework",
+              RFC 6749, DOI 10.17487/RFC6749, October 2012,
+              <https://www.rfc-editor.org/rfc/rfc6749>.
+
+   [RFC6755]  Campbell, B. and H. Tschofenig, "An IETF URN Sub-Namespace
+              for OAuth", RFC 6755, DOI 10.17487/RFC6755, October 2012,
+              <https://www.rfc-editor.org/rfc/rfc6755>.
+
+   [RFC7517]  Jones, M., "JSON Web Key (JWK)", RFC 7517,
+              DOI 10.17487/RFC7517, May 2015,
+              <https://www.rfc-editor.org/rfc/rfc7517>.
+
+   [RFC7521]  Campbell, B., Mortimore, C., Jones, M., and Y. Goland,
+              "Assertion Framework for OAuth 2.0 Client Authentication
+              and Authorization Grants", RFC 7521, DOI 10.17487/RFC7521,
+              May 2015, <https://www.rfc-editor.org/rfc/rfc7521>.
+
+   [RFC7523]  Jones, M., Campbell, B., and C. Mortimore, "JSON Web Token
+              (JWT) Profile for OAuth 2.0 Client Authentication and
+              Authorization Grants", RFC 7523, DOI 10.17487/RFC7523, May
+              2015, <https://www.rfc-editor.org/rfc/rfc7523>.
+
    [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
               May 2017, <https://www.rfc-editor.org/rfc/rfc8174>.
+
+   [RFC8705]  Campbell, B., Bradley, J., Sakimura, N., and T.
+              Lodderstedt, "OAuth 2.0 Mutual-TLS Client Authentication
+              and Certificate-Bound Access Tokens", RFC 8705,
+              DOI 10.17487/RFC8705, February 2020,
+              <https://www.rfc-editor.org/rfc/rfc8705>.
+
+   [SPIFFE]   "SPIFFE", n.d.,
+              <https://github.com/spiffe/spiffe/blob/main/standards/
+              SPIFFE.md>.
+
+   [SPIFFE_BUNDLE]
+              "SPIFFE Bundle", n.d.,
+              <https://github.com/spiffe/spiffe/blob/main/standards/
+              SPIFFE_Trust_Domain_and_Bundle.md#4-spiffe-bundle-format>.
+
+   [SPIFFE_FEDERATION]
+              "SPIFFE Federation", n.d.,
+              <https://github.com/spiffe/spiffe/blob/main/standards/
+              SPIFFE_Federation.md>.
+
+   [SPIFFE_ID]
+              "SPIFFE-ID", n.d.,
+              <https://github.com/spiffe/spiffe/blob/main/standards/
+              SPIFFE-ID.md>.
+
+   [SPIFFE_JWT]
+              "JWT-SVID", n.d.,
+              <https://github.com/spiffe/spiffe/blob/main/standards/JWT-
+              SVID.md>.
+
+   [SPIFFE_X509]
+              "X509-SVID", n.d.,
+              <https://github.com/spiffe/spiffe/blob/main/standards/
+              X509-SVID.md>.
+
+7.2.  Informative References
+
+   [RFC7591]  Richer, J., Ed., Jones, M., Bradley, J., Machulak, M., and
+              P. Hunt, "OAuth 2.0 Dynamic Client Registration Protocol",
+              RFC 7591, DOI 10.17487/RFC7591, July 2015,
+              <https://www.rfc-editor.org/rfc/rfc7591>.
 
 Acknowledgments
 
@@ -119,6 +260,6 @@ Acknowledgments
 
 Author's Address
 
-   PieterKas
+   Pieter Kasselman
    SPIRL
    Email: pieter@spirl.com
