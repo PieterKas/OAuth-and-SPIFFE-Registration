@@ -76,9 +76,10 @@ Table of Contents
 
    1.  Introduction
    2.  Conventions and Definitions
-   3.  Register On First Use
-     3.1.  Client Authentication
-     3.2.  Authorization Server Processing
+   3.  Client Registration On First Use
+     3.1.  SPIFFE and OAuth Trust Relationship
+     3.2.  Client Authentication
+     3.3.  Authorization Server Processing
    4.  Additional metadata
      4.1.  The redirect URI
    5.  Security Considerations
@@ -156,15 +157,76 @@ Table of Contents
    BCP 14 [RFC2119] [RFC8174] when, and only when, they appear in all
    capitals, as shown here.
 
-3.  Register On First Use
+3.  Client Registration On First Use
 
-3.1.  Client Authentication
+   The SPIFFE deployment is responsible for bootstrapping the
+   identifiers and credentials used by workloads in an environment.  The
+   SPIFFE deployment dynamically attests workloads, issues identifiers,
+   provision short lived credentials, and rotate those credentials.
+   SPIFFE supports multiple ccredential formats, including JWT-SVID
+   [SPIFFE_JWT] and JWT-X.509 [SPIFFE_X509].  Workloads can use these
+   credentials with any protocol that is compatible with these
+   credential types to authenticate themselves.  Examples includes OAuth
+   2.0 Mutual-TLS Client Authentication [RFC8705] using JWT-X.509
+   [SPIFFE_X509] credentials and the JSON Web Token (JWT) Profile for
+   OAuth 2.0 Client Authentication and Authorization Grants [RFC7523]
+   using JWT-SVIDs [SPIFFE_JWT].
 
-3.2.  Authorization Server Processing
+   An OAuth deployment leverages the SPIFFE identifiers and credentials
+   already issued to workloads by establishing a trust relationship with
+   the SPIFFE issuer.  As a result, the OAuth authorization server is
+   able to verify any credential issued for a specific SPIFFE
+   environment when it is presented to the OAuth authorization server.
+   This assures the OAuth authorization server that the workload was
+   attested and verified in acccordance with the SPIFFE issuer's
+   policies.  In addition, it is assured that the identifier was
+   correctly assigned to the workload, and that the lifecycle of the
+   credentials and the underlying keys are managed in accordance with
+   the SPIFFE issuer's policies.
+
+   The OAuth authorization server avoids operational overheads of
+   registering client_id and client_secret values by accepting SPIFFE
+   credentials from workload acting as an OAuth client participating in
+   an OAuth flow.  The credentials must be signed by a trusted issuer.
+   If this is the first time the authorization server verifies a
+   credential wth a specific SPIFFE ID, it registers a new client_id,
+   removing the need for an out-of-bound or seperate registration flow.
+   The OAuth authorization server may derive a unique client_id from the
+   SPIFFE ID, or it may use the SPIFFE ID as the clinet_id.  Since the
+   workload is already in possession of a credential that is
+   cryptographically bound to its identifier, no addditional
+   client_secret is needed, removing the operational overhead and
+   securtiy risks of managing long lived secrets in large scale
+   deployments that already have SPIFFE credentials.  The OAuth
+   authorization server may register additional metadata if needed.  How
+   the additional metadata is obtained is an implementation choice and
+   deployment specific.  Metadata may be preconfigured, automatically
+   created or retrieved from a configuration management system, if
+   needed.
+
+   TODO insert picture.
+
+3.1.  SPIFFE and OAuth Trust Relationship
+
+   SPIFFE makes provision for multiple Trust Domains, which are
+   represented in the workload identifier.  Trust Domains offers
+   additional segmentation withing a SPIFFE deployment and each Trust
+   Domain has its own keys for signing credentials.
+
+3.2.  Client Authentication
+
+   Use any protocol compatible with the SPIFFE Credentials
+
+3.3.  Authorization Server Processing
+
+   Rules for verifying and registering the client_id
 
 4.  Additional metadata
 
 4.1.  The redirect URI
+
+   TODO - all the ways addditional metadata may be obtained - including
+   addding it as a request parameter perhaps?  PAR allows for this.
 
 5.  Security Considerations
 
