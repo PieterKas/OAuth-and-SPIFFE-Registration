@@ -4,8 +4,8 @@
 
 Network Working Group                                       P. Kasselman
 Internet-Draft                                                     SPIRL
-Intended status: Informational                               16 May 2025
-Expires: 17 November 2025
+Intended status: Informational                               20 May 2025
+Expires: 21 November 2025
 
 
                             OAuth and SPIFFE
@@ -57,7 +57,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 17 November 2025.
+   This Internet-Draft will expire on 21 November 2025.
 
 Copyright Notice
 
@@ -78,9 +78,9 @@ Table of Contents
    1.  Introduction
    2.  Conventions and Definitions
    3.  Client Registration On First Use
-     3.1.  Client Registration On First Use for Non-Redirecting Oauth
+     3.1.  Client Registration On First Use for Non-Redirecting OAuth
            Flows
-     3.2.  Client Registration On First Use for Non-Redirecting Oauth
+     3.2.  Client Registration On First Use for Redirecting OAuth
            Flows
    4.  SPIFFE and OAuth Trust Relationship
      4.1.  Client Authentication
@@ -231,12 +231,13 @@ Table of Contents
    both OAuth patterns ensures a smooth registration experience
    regardless of the authentication method selected.
 
-3.1.  Client Registration On First Use for Non-Redirecting Oauth Flows
+3.1.  Client Registration On First Use for Non-Redirecting OAuth Flows
 
-   In OAuth flows where there is no redirection, the client interacts
-   with the authorization server token endpoint directly.  Examples
-   include the Client Credentials (see Section 4.4 of [RFC6749]) and
-   Resource Owner Password Credentials (see Section 4.3 of [RFC6749]).
+   In OAuth flows where there is no redirection, the client initiates
+   interaction with the authorization server and access the token
+   endpoint directly without any preceding redirects.  Examples include
+   the Client Credentials (see Section 4.4 of [RFC6749]) and Resource
+   Owner Password Credentials (see Section 4.3 of [RFC6749]).
 
    The diagram below shows the process for client registration on first
    use in the Client Credential flow.
@@ -263,7 +264,7 @@ Table of Contents
          (E) Access Resource                |             |
                                             +-------------+
 
-                 Figure 1: Client Registration on First Use
+    Figure 1: Client Registration on First Use: Client Credentials Grant
 
    *  (A) The OAuth authorization server establish a trust relationship
       with the SPIFFE Issuer.  Once trust is established, the OAuth
@@ -293,9 +294,80 @@ Table of Contents
    *  (E) The Oauth client use the access token it retrieved in the
       previous step and use it to acccess the resource server.
 
-3.2.  Client Registration On First Use for Non-Redirecting Oauth Flows
+3.2.  Client Registration On First Use for Redirecting OAuth Flows
 
-   TODO
+   In OAuth flows that rely on redirection, the initial interaction with
+   the authorization server is not performed by the client, but is
+   instead performed by another component, such as the user agent, after
+   which the flow is redirected to the client.  The client then
+   interacts with the authorization server token endpoint to complete
+   the flow and obtain tokens.  Examples include the Authorization Grant
+   Flow (see Section 4.1 of [RFC6749]).
+
+        +----------+
+        | Resource |
+        |   Owner  |
+        |          |
+        +----------+
+             ^
+             |
+            (D)
+        +----|-----+          Client Identifier      +---------------+
+        |         -+----(C)-- & Redirection URI ---->|               |
+        |  User-   |                                 | Authorization |
+        |  Agent  -+----(D)-- User authenticates --->|     Server    |
+        |          |                                 |               |
+        |         -+----(E)-- Authorization Code ---<|               |
+        +-|----|---+                                 +---------------+
+          |    |                                         ^   v   ^
+         (C)  (D)                                        |   |   |
+          |    |                                         |   |   |
+          ^    v                                         |   |   |
+        +---------+                                      |   |   |
+        |         |>---(E)-- Authorization Code ---------'   |   |
+        |  Client |          & Redirection URI               |   |
+        |         |                                          |   |
+        |         |<---(F)----- Access Token ----------------'   |
+        +---------+       (w/ Optional Refresh Token)            |
+          ^                                                      |
+          | (B) SPIFFE Issuer Attest Workload                    |
+          |     and Provisions Credentials                       |
+          V                                                      |
+      +-------------+ (A) Authorization Server Establish         |
+      |   SPIFFE    |     Trust with SPIFFE Issuer               |
+      |   Issuer    |<-------------------------------------------'
+      +-------------+
+
+    Figure 2: Client Registration on First Use: Authorization Code Grant
+
+   (C) The client initiates the flow by directing the resource owner's
+   user-agent to the authorization endpoint.  The client includes its
+   client identifier, requested scope, local state, and a redirection
+   URI to which the authorization server will send the user-agent back
+   once access is granted (or denied).
+
+   (D) The authorization server authenticates the resource owner (via
+   the user-agent) and establishes whether the resource owner grants or
+   denies the client's access request.
+
+   (E) Assuming the resource owner grants access, the authorization
+   server redirects the user-agent back to the client using the
+   redirection URI provided earlier (in the request or during client
+   registration).  The redirection URI includes an authorization code
+   and any local state provided by the client earlier.
+
+   (F) The client requests an access token from the authorization
+   server's token endpoint by including the authorization code received
+   in the previous step.  When making the request, the client
+   authenticates with the authorization server.  The client includes the
+   redirection URI used to obtain the authorization code for
+   verification.
+
+   (G) The authorization server authenticates the client, validates the
+   authorization code, and ensures that the redirection URI received
+   matches the URI used to redirect the client in step (E).  If valid,
+   the authorization server responds back with an access token and,
+   optionally, a refresh token.
 
 4.  SPIFFE and OAuth Trust Relationship
 
