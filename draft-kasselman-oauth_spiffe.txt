@@ -2,13 +2,13 @@
 
 
 
-Network Working Group                                       P. Kasselman
+Web Authorization Protocol                                  P. Kasselman
 Internet-Draft                                                     SPIRL
-Intended status: Informational                               20 May 2025
-Expires: 21 November 2025
+Intended status: Informational                               21 May 2025
+Expires: 22 November 2025
 
 
-                            OAuth and SPIFFE
+           OAuth Client Registration on First Use with SPIFFE
                   draft-kasselman-oauth_spiffe-latest
 
 Abstract
@@ -39,6 +39,11 @@ About This Document
    oauth_spiffe.html.  Status information for this document may be found
    at https://datatracker.ietf.org/doc/draft-kasselman-oauth_spiffe/.
 
+   Discussion of this document takes place on the Web Authorization
+   Protocol Working Group mailing list (mailto:oauth@ietf.org), which is
+   archived at https://mailarchive.ietf.org/arch/browse/oauth/.
+   Subscribe at https://www.ietf.org/mailman/listinfo/oauth/.
+
    Source for this draft and an issue tracker can be found at
    https://github.com/PieterKas/OAuth-and-SPIFFE.
 
@@ -57,7 +62,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 21 November 2025.
+   This Internet-Draft will expire on 22 November 2025.
 
 Copyright Notice
 
@@ -85,9 +90,12 @@ Table of Contents
    4.  SPIFFE and OAuth Trust Relationship
      4.1.  Client Authentication
      4.2.  Authorization Server Processing
+       4.2.1.  Non-redirect flows
+       4.2.2.  Redirect flows
    5.  Additional metadata
      5.1.  The redirect URI
      5.2.  Scopes
+     5.3.  Grant Types
    6.  Client ID Lifecycle Management
    7.  Security Considerations
    8.  IANA Considerations
@@ -304,100 +312,189 @@ Table of Contents
    the flow and obtain tokens.  Examples include the Authorization Grant
    Flow (see Section 4.1 of [RFC6749]).
 
-        +----------+
-        | Resource |
-        |   Owner  |
-        |          |
-        +----------+
-             ^
-             |
-            (D)
-        +----|-----+          Client Identifier      +---------------+
-        |         -+----(C)-- & Redirection URI ---->|               |
-        |  User-   |                                 | Authorization |
-        |  Agent  -+----(D)-- User authenticates --->|     Server    |
-        |          |                                 |               |
-        |         -+----(E)-- Authorization Code ---<|               |
-        +-|----|---+                                 +---------------+
-          |    |                                         ^   v   ^
-         (C)  (D)                                        |   |   |
-          |    |                                         |   |   |
-          ^    v                                         |   |   |
-        +---------+                                      |   |   |
-        |         |>---(E)-- Authorization Code ---------'   |   |
-        |  Client |          & Redirection URI               |   |
-        |         |                                          |   |
-        |         |<---(F)----- Access Token ----------------'   |
-        +---------+       (w/ Optional Refresh Token)            |
-          ^                                                      |
-          | (B) SPIFFE Issuer Attest Workload                    |
-          |     and Provisions Credentials                       |
-          V                                                      |
-      +-------------+ (A) Authorization Server Establish         |
-      |   SPIFFE    |     Trust with SPIFFE Issuer               |
-      |   Issuer    |<-------------------------------------------'
-      +-------------+
+        +-------------+ (A) Authorization Server Establish
+        |   SPIFFE    |     Trust with SPIFFE Issuer
+    +-->|   Issuer    |<-------------------------------------+
+    |   +-------------+                                      |
+    |                                                        |
+   (B) SPIFFE Issuer Attest Workload                         |
+    |   and Provisions Credentials                           |
+    |                                                        |
+    |   +----------+                                         |
+    |   | Resource |                                         |
+    |   |   Owner  |                                         |
+    |   |          |                                         |
+    |   +----------+                                         |
+    |        ^                                               |
+    |        |                                               |
+    |       (D)                                              V
+    |   +----|-----+          Client Identifier      +---------------+
+    |   |         -+----(C)-- & Redirection URI ---->|               |
+    |   |  User-   |                                 | Authorization |
+    |   |  Agent  -+----(D)-- User authenticates --->|     Server    |
+    |   |          |                                 |               |
+    |   |         -+----(E)-- Authorization Code ---<|               |
+    |   +-|----|---+                                 +---------------+
+    |     |    |                                         ^   v
+    |    (C)  (D)                                        |   |
+    |     |    |                                         |   |
+    |     ^    v                                         |   |
+    |   +---------+                                      |   |
+    |   |         |>---(E)-- Authorization Code ---------'   |
+    |   |  Client |          & Redirection URI               |
+    +-->|         |                                          |
+        |         |<---(F)----- Access Token ----------------'
+        +---------+       (w/ Optional Refresh Token)
 
     Figure 2: Client Registration on First Use: Authorization Code Grant
 
-   (C) The client initiates the flow by directing the resource owner's
-   user-agent to the authorization endpoint.  The client includes its
-   client identifier, requested scope, local state, and a redirection
-   URI to which the authorization server will send the user-agent back
-   once access is granted (or denied).
+   *  (A) The OAuth authorization server establish a trust relationship
+      with the SPIFFE Issuer.  Once trust is established, the OAuth
+      authorization server accepts credentials issued by the SPIFFE
+      Issuer.
 
-   (D) The authorization server authenticates the resource owner (via
-   the user-agent) and establishes whether the resource owner grants or
-   denies the client's access request.
+   *  (B) The workload is attested and credentialed by the SPIFFE Issuer
+      [SPIFFE].  The SPIFFE Issuer assigns a SPIFFE ID [SPIFFE_ID] as an
+      identifier for the workload, along with SPIFFE credentials (e.g.
+      JWT-SVID [SPIFFE_JWT] and X.509-SVID [SPIFFE_X509]).
 
-   (E) Assuming the resource owner grants access, the authorization
-   server redirects the user-agent back to the client using the
-   redirection URI provided earlier (in the request or during client
-   registration).  The redirection URI includes an authorization code
-   and any local state provided by the client earlier.
+   *  (C) The client initiates the flow by directing the resource
+      owner's user-agent to the authorization endpoint.  The client
+      includes its client identifier, requested scope, local state, and
+      a redirection URI to which the authorization server will send the
+      user-agent back once access is granted (or denied).
 
-   (F) The client requests an access token from the authorization
-   server's token endpoint by including the authorization code received
-   in the previous step.  When making the request, the client
-   authenticates with the authorization server.  The client includes the
-   redirection URI used to obtain the authorization code for
-   verification.
+   *  (D) The authorization server authenticates the resource owner (via
+      the user-agent) and establishes whether the resource owner grants
+      or denies the client's access request.  If the client identifier
+      (client_id) is a SPIFFE ID, it registers the SPIFFE ID as the
+      client identifier and register additional metadata, including a
+      redirection URI (redirect_uri).  The additional metadata may be
+      obtained from configuration servers or other out-of-band
+      mechanisms that is trusted by the authorization server.
 
-   (G) The authorization server authenticates the client, validates the
-   authorization code, and ensures that the redirection URI received
-   matches the URI used to redirect the client in step (E).  If valid,
-   the authorization server responds back with an access token and,
-   optionally, a refresh token.
+   *  (E) Assuming the resource owner grants access, the authorization
+      server redirects the user-agent back to the client using the
+      redirection URI provided earlier (in the request or during client
+      registration).  The redirection URI includes an authorization code
+      and any local state provided by the client earlier.
+
+   *  (F) The client requests an access token from the authorization
+      server's token endpoint by including the authorization code
+      received in the previous step.  When making the request, the
+      client authenticates with the authorization server.  It
+      authenticates itself using either a JWT-SVID or X.509-SVID as
+      defined in [SPIFFE-OAUTH-CLIENT-AUTH].  The client includes the
+      redirection URI used to obtain the authorization code for
+      verification.
+
+   *  (G) The authorization server authenticates the client, validates
+      the authorization code, and ensures that the redirection URI
+      received matches the URI used to redirect the client in step (E).
+      If valid, the authorization server responds back with an access
+      token and, optionally, a refresh token.
 
 4.  SPIFFE and OAuth Trust Relationship
 
    SPIFFE makes provision for multiple Trust Domains, which are
    represented in the workload identifier.  Trust Domains offers
    additional segmentation withing a SPIFFE deployment and each Trust
-   Domain has its own keys for signing credentials.
+   Domain has its own keys for signing credentials.  The OAuth
+   authorization server may choose to trust one or more trust domains as
+   defined in [SPIFFE-OAUTH-CLIENT-AUTH].
 
 4.1.  Client Authentication
 
-   Use any protocol compatible with the SPIFFE Credentials
+   The client SHOULD authenticate itself using either a JWT-SVID or
+   X.509-SVID as defined in [SPIFFE-OAUTH-CLIENT-AUTH].
 
 4.2.  Authorization Server Processing
 
-   Rules for verifying and registering the client_id
+   When presented with a SPIFFE ID that is used as a client identifier,
+   the authorization server SHOULD register it as a valid client
+   identifier.  There are two cases:
+
+4.2.1.  Non-redirect flows
+
+   In these flows, the client is intereacting directly with the token
+   endpoint.  The authorization server MUST authenticate the client as
+   described in JWT-SVID or X.509-SVID as defined in
+   [SPIFFE-OAUTH-CLIENT-AUTH].  If the JWT-SVID or X.509-SVID used to
+   authenticate the client was issued by a trusted SPIFFE issuer, and
+   the authentication succeeds, the SPIFFE ID SHOULD be registered as
+   the client identifier (client_id).
+
+4.2.2.  Redirect flows
+
+   In redirect flows, another component such as the user agent,
+   interacts with the authorization server and relies on a redirection
+   back to the client.  Since the client does not interact directly with
+   the authorization server in this initial interaction, it is not in a
+   position to authenticate itself using a JWT-SVID or X.509-SVID.  The
+   user agent includes a client identifier (the SPIFFE ID) which the
+   authorization server registers as a valid client identifier
+   (client_id) after obtaining additional metadata.  The metadata may be
+   derived from the SPIFFE ID, or it may be retrieved from a
+   configuration server.  Details of obtaining the additional metaddata
+   is implementation specific and beyond the scope of this document.  If
+   ne or more redirection URIs are obtained from another source, it MUST
+   be the same as that presented by the user agent.
+
+   Following the redirect back to the client, the client must
+   authenticate to the authorization server as described in JWT-SVID or
+   X.509-SVID as defined in [SPIFFE-OAUTH-CLIENT-AUTH].  If the
+   authentication fails, or the SPIFFE ID in the JWT-SVID or X.509-SVID
+   does not match the client identifier, the request should be denied
+   and the authorization server MAY de-register the client identifier
+   used.  If the authentication succeeds, it confirms that the client
+   was issued a credential by a trusted SPIFFE issuer and the
+   authorization server issues the requested tokens.
 
 5.  Additional metadata
 
+   Additional metadata may be required when a client identifier
+   (client_id) is first registered.  The OAuth 2.0 Dynamic Client
+   Registration Protocol [RFC7591] defines client metadata that may be
+   used.  If required, client metadata SHOULD be added at the time of
+   registration.  The exact mechanims through which this additional
+   metadata is retrieved is out of scope of this document.  Metadata may
+   dynamically generated or derived at the time of registration, or it
+   may be retrieved from a system of record, such as a configuration
+   management system in an enterprise.  The SPIFFE ID presented as the
+   client identitifier (client_id) may be presented to a system of
+   record to retrieve additional metadata.
+
 5.1.  The redirect URI
 
-   TODO - all the ways addditional metadata may be obtained - including
-   addding it as a request parameter perhaps?  PAR allows for this.
+   Flows that depend on redirection requires that a redirect URI is
+   registered along with every client identifier.  Another component,
+   like a User Agent, may contact the authorization server, before being
+   redirected to the client.  In order to avoid attacks such as cross-
+   site request forgery, open redirecotr attacks and similar attacck
+   described in OAuth 2.0 Threat Model and Security Considerations
+   [RFC6819] and OAuth 2.0 Security Best Current Practice [RFC9700], the
+   redirect_uri MUST be provisioned from a trustworthy source if it is
+   required.
 
 5.2.  Scopes
 
+   An authorization server MAY register a client with a default set of
+   scopes or retrieve client sspecific scopes from a system of record,
+   such as a configuration management system.  Details of how to
+   retrieve additional scope data is out of scope for this document.
+
+5.3.  Grant Types
+
+   Authorization servers MAY choose to limit the grant types for which
+   the "register on first use" pattern is supported.  This may be
+   recorded as the "grant_type" metadata field.
+
 6.  Client ID Lifecycle Management
 
-   delete client IDs every so often.
-
-   Velocity controls
+   The numberof client ids registered with an authorization server may
+   grow significantly over time.  An authorization MAY unregistered a
+   client id if it has not been used for a an extended period of time to
+   reduce the size of the client registration database.
 
 7.  Security Considerations
 
@@ -485,10 +582,20 @@ Table of Contents
 
 9.2.  Informative References
 
+   [RFC6819]  Lodderstedt, T., Ed., McGloin, M., and P. Hunt, "OAuth 2.0
+              Threat Model and Security Considerations", RFC 6819,
+              DOI 10.17487/RFC6819, January 2013,
+              <https://www.rfc-editor.org/rfc/rfc6819>.
+
    [RFC7591]  Richer, J., Ed., Jones, M., Bradley, J., Machulak, M., and
               P. Hunt, "OAuth 2.0 Dynamic Client Registration Protocol",
               RFC 7591, DOI 10.17487/RFC7591, July 2015,
               <https://www.rfc-editor.org/rfc/rfc7591>.
+
+   [RFC9700]  Lodderstedt, T., Bradley, J., Labunets, A., and D. Fett,
+              "Best Current Practice for OAuth 2.0 Security", BCP 240,
+              RFC 9700, DOI 10.17487/RFC9700, January 2025,
+              <https://www.rfc-editor.org/rfc/rfc9700>.
 
 Acknowledgments
 
