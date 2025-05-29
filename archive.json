@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-05-27T01:48:30.478106+00:00",
+  "timestamp": "2025-05-29T01:50:11.674538+00:00",
   "repo": "PieterKas/OAuth-and-SPIFFE-Registration",
   "labels": [
     {
@@ -50,5 +50,40 @@
     }
   ],
   "issues": [],
-  "pulls": []
+  "pulls": [
+    {
+      "number": 1,
+      "id": "PR_kwDOOooYGs6X3LrX",
+      "title": "Fix typos and diagrams",
+      "url": "https://github.com/PieterKas/OAuth-and-SPIFFE-Registration/pull/1",
+      "state": "OPEN",
+      "author": "heymarcel",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "- Language suggestions\r\n- Fixed minor typos\r\n- Cleaned up diagrams, but still not sure whether logic is right in the authorization code grant diagram",
+      "createdAt": "2025-05-27T22:45:33Z",
+      "updatedAt": "2025-05-28T11:55:28Z",
+      "baseRepository": "PieterKas/OAuth-and-SPIFFE-Registration",
+      "baseRefName": "main",
+      "baseRefOid": "8134d0cbc4950119a39c93fc3e917e5501ea4157",
+      "headRepository": "heymarcel/OAuth-and-SPIFFE-Registration",
+      "headRefName": "main",
+      "headRefOid": "8bc54ff121743a0e15b33b65abf7a6791cd62737",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [
+        {
+          "author": "dagdagdag83",
+          "authorAssociation": "COLLABORATOR",
+          "body": "This is a carry-over from @PieterKas, but this PR would be a good chance to fix this too I will mention it:\r\nIn my opinion we should not use the terminology `client_id` and `client_id`, we should use \"client ID\" and \"client secret\" (capitalized only when referred to specifically The Client ID or The Client Secret).\r\n\r\nThe terms `client_id` and `client_secret` should only be used when we are referring specifically to the parameters, which are snake_cased and usually in code formatting.",
+          "createdAt": "2025-05-28T09:42:19Z",
+          "updatedAt": "2025-05-28T11:55:27Z"
+        }
+      ],
+      "reviews": []
+    }
+  ]
 }
