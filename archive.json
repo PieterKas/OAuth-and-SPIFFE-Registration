@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-05-29T01:50:11.674538+00:00",
+  "timestamp": "2025-06-01T02:08:08.104635+00:00",
   "repo": "PieterKas/OAuth-and-SPIFFE-Registration",
   "labels": [
     {
@@ -49,31 +49,81 @@
       "color": "ffffff"
     }
   ],
-  "issues": [],
+  "issues": [
+    {
+      "number": 2,
+      "id": "I_kwDOOooYGs65HQz0",
+      "title": "Clarify terminology",
+      "url": "https://github.com/PieterKas/OAuth-and-SPIFFE-Registration/issues/2",
+      "state": "OPEN",
+      "author": "PieterKas",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "This is a carry-over from @PieterKas, but this PR would be a good chance to fix this too I will mention it:\r\nIn my opinion we should not use the terminology `client_id` and `client_id`, we should use \"client ID\" and \"client secret\" (capitalized only when referred to specifically The Client ID or The Client Secret).\r\n\r\nThe terms `client_id` and `client_secret` should only be used when we are referring specifically to the parameters, which are snake_cased and usually in code formatting.\r\n\r\n_Originally posted by @dagdagdag83 in https://github.com/PieterKas/OAuth-and-SPIFFE-Registration/issues/1#issuecomment-2915672570_\r\n            ",
+      "createdAt": "2025-05-31T16:03:04Z",
+      "updatedAt": "2025-05-31T16:37:03Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "PieterKas",
+          "authorAssociation": "OWNER",
+          "body": "@dagdagdag83 - would you like to propose a PR for this?",
+          "createdAt": "2025-05-31T16:06:35Z",
+          "updatedAt": "2025-05-31T16:06:35Z"
+        },
+        {
+          "author": "dagdagdag83",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@PieterKas yep, I can do it next week \ud83d\udc4d ",
+          "createdAt": "2025-05-31T16:37:02Z",
+          "updatedAt": "2025-05-31T16:37:02Z"
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "id": "I_kwDOOooYGs65HRnk",
+      "title": "Generalize Pattern with SPIFFE as an example",
+      "url": "https://github.com/PieterKas/OAuth-and-SPIFFE-Registration/issues/3",
+      "state": "OPEN",
+      "author": "PieterKas",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "Based on conversations with @dagdagdag83 - this may be better to write as a \"general framework\" and then use SPIFFE as an instance of that pattern.",
+      "createdAt": "2025-05-31T16:04:38Z",
+      "updatedAt": "2025-05-31T16:04:38Z",
+      "closedAt": null,
+      "comments": []
+    }
+  ],
   "pulls": [
     {
       "number": 1,
       "id": "PR_kwDOOooYGs6X3LrX",
       "title": "Fix typos and diagrams",
       "url": "https://github.com/PieterKas/OAuth-and-SPIFFE-Registration/pull/1",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "heymarcel",
-      "authorAssociation": "NONE",
+      "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "- Language suggestions\r\n- Fixed minor typos\r\n- Cleaned up diagrams, but still not sure whether logic is right in the authorization code grant diagram",
       "createdAt": "2025-05-27T22:45:33Z",
-      "updatedAt": "2025-05-28T11:55:28Z",
+      "updatedAt": "2025-05-31T16:06:00Z",
       "baseRepository": "PieterKas/OAuth-and-SPIFFE-Registration",
       "baseRefName": "main",
       "baseRefOid": "8134d0cbc4950119a39c93fc3e917e5501ea4157",
       "headRepository": "heymarcel/OAuth-and-SPIFFE-Registration",
       "headRefName": "main",
       "headRefOid": "8bc54ff121743a0e15b33b65abf7a6791cd62737",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2025-05-31T16:06:00Z",
+      "mergedAt": "2025-05-31T16:06:00Z",
+      "mergedBy": "PieterKas",
+      "mergeCommit": {
+        "oid": "3557fe6a4603179f38e413e51c1facb07cb369ba"
+      },
       "comments": [
         {
           "author": "dagdagdag83",
