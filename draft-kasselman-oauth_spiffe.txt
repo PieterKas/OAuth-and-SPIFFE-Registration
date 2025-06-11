@@ -4,8 +4,8 @@
 
 Web Authorization Protocol                                  P. Kasselman
 Internet-Draft                                                     SPIRL
-Intended status: Informational                               31 May 2025
-Expires: 2 December 2025
+Intended status: Informational                              11 June 2025
+Expires: 13 December 2025
 
 
            OAuth Client Registration on First Use with SPIFFE
@@ -56,7 +56,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 2 December 2025.
+   This Internet-Draft will expire on 13 December 2025.
 
 Copyright Notice
 
@@ -87,9 +87,10 @@ Table of Contents
        4.2.1.  Non-redirect flows
        4.2.2.  Redirect flows
    5.  Additional metadata
-     5.1.  The redirect URI
-     5.2.  Scopes
-     5.3.  Grant Types
+     5.1.  Metadata as claims in the JWT-SVID
+     5.2.  The redirect URI
+     5.3.  Scopes
+     5.4.  Grant Types
    6.  Client ID Lifecycle Management
    7.  Security Considerations
    8.  IANA Considerations
@@ -207,10 +208,13 @@ Table of Contents
    removing the operational overhead and securtiy risks of managing
    long-lived secrets in large-scale deployments that already have
    SPIFFE credentials.  The OAuth authorization server may register
-   additional metadata if needed.  How the additional metadata is
-   obtained is a deployment-specific implementation choice.  Metadata
-   may be preconfigured, automatically created or retrieved from a
-   configuration management system.
+   additional metadata if needed.  The authorization server may use a
+   number of mechanissms for obtaining additional metadata.  Metadata
+   may be preconfigured, automatically created, retrieved from a
+   configuration management system, or retrieved from the JWT-SVID, if
+   it was included as additional claims, similar to how Dynamic Client
+   Registration ([RFC7591]) describes how a software statement may be
+   used to convey metadata.
 
    The "register on first use" implementation varies depending whether
    or not the OAuth flows includes redirection.  In non-redirecting
@@ -454,15 +458,21 @@ Table of Contents
    (client_id) is first registered.  The OAuth 2.0 Dynamic Client
    Registration Protocol [RFC7591] defines client metadata that may be
    used.  If required, client metadata SHOULD be added at the time of
-   registration.  The exact mechanisms through which this additional
-   metadata is retrieved is out of scope of this document.  Metadata may
-   be dynamically generated or derived at the time of registration, or
-   it may be retrieved from a system of record, such as a configuration
-   management system in an enterprise.  The SPIFFE ID presented as the
-   client identitifier (client_id) may be presented to a system of
-   record to retrieve additional metadata.
+   registration.  Metadata may be dynamically generated or derived at
+   the time of registration, or it may be retrieved from a system of
+   record using the SPIFFE ID to locate the metadata in an enterprise
+   environment.
 
-5.1.  The redirect URI
+5.1.  Metadata as claims in the JWT-SVID
+
+   A SPIFFE issuer MAY include additional metadata as claims in the JWT-
+   SVID, similar to how it may be included in a software statement as
+   defined in the OAuth 2.0 Dynamic Registration Protocol [RFC7591].  If
+   the additional metadata claims are used, the claims in the JWT-SVID
+   should be processed in accordance with [RFC7591] as if they were
+   included in a software statement.
+
+5.2.  The redirect URI
 
    Flows that depend on redirection requires that a redirect URI is
    registered along with every client identifier.  Another component,
@@ -474,14 +484,14 @@ Table of Contents
    redirect_uri MUST be provisioned from a trustworthy source if it is
    required.
 
-5.2.  Scopes
+5.3.  Scopes
 
    An authorization server MAY register a client with a default set of
    scopes or retrieve client-specific scopes from a system of record,
    such as a configuration management system.  Details of how to
    retrieve additional scope data is out of scope for this document.
 
-5.3.  Grant Types
+5.4.  Grant Types
 
    Authorization servers MAY choose to limit the grant types for which
    the "register on first use" pattern is supported.  This may be
@@ -536,6 +546,11 @@ Table of Contents
               Authorization Grants", RFC 7523, DOI 10.17487/RFC7523, May
               2015, <https://www.rfc-editor.org/rfc/rfc7523>.
 
+   [RFC7591]  Richer, J., Ed., Jones, M., Bradley, J., Machulak, M., and
+              P. Hunt, "OAuth 2.0 Dynamic Client Registration Protocol",
+              RFC 7591, DOI 10.17487/RFC7591, July 2015,
+              <https://www.rfc-editor.org/rfc/rfc7591>.
+
    [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
               May 2017, <https://www.rfc-editor.org/rfc/rfc8174>.
@@ -584,11 +599,6 @@ Table of Contents
               Threat Model and Security Considerations", RFC 6819,
               DOI 10.17487/RFC6819, January 2013,
               <https://www.rfc-editor.org/rfc/rfc6819>.
-
-   [RFC7591]  Richer, J., Ed., Jones, M., Bradley, J., Machulak, M., and
-              P. Hunt, "OAuth 2.0 Dynamic Client Registration Protocol",
-              RFC 7591, DOI 10.17487/RFC7591, July 2015,
-              <https://www.rfc-editor.org/rfc/rfc7591>.
 
    [RFC9700]  Lodderstedt, T., Bradley, J., Labunets, A., and D. Fett,
               "Best Current Practice for OAuth 2.0 Security", BCP 240,
