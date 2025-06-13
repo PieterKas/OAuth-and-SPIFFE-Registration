@@ -4,8 +4,8 @@
 
 Web Authorization Protocol                                  P. Kasselman
 Internet-Draft                                                     SPIRL
-Intended status: Informational                              11 June 2025
-Expires: 13 December 2025
+Intended status: Informational                              13 June 2025
+Expires: 15 December 2025
 
 
            OAuth Client Registration on First Use with SPIFFE
@@ -56,7 +56,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 13 December 2025.
+   This Internet-Draft will expire on 15 December 2025.
 
 Copyright Notice
 
@@ -91,7 +91,7 @@ Table of Contents
      5.2.  The redirect URI
      5.3.  Scopes
      5.4.  Grant Types
-   6.  Client ID Lifecycle Management
+   6.  Client Lifecycle Management
    7.  Security Considerations
    8.  IANA Considerations
    9.  References
@@ -108,15 +108,16 @@ Table of Contents
    to resources controlled by the resource owner and hosted by the
    resource server, and is issued a different set of credentials than
    those of the resource owner [RFC6749].  The OAuth client is
-   identified with a client_id and supports multiple authentication
-   methods, such as the commonly-used client_secret.  The management of
-   client_ids and client_secrets represents operational challenges,
-   including manual registrations, lifecycle management and the
-   increasing burden of managing client_secrets used for authenticating
-   OAuth clients.  Modern cloud-native architectural patterns, like
-   micro-services and other ephemeral compute concepts, allows for on-
-   demand scaling of OAuth clients, which in turn increases the burden
-   on managing the lifecycle of the client_id and client_secret.
+   identified with a client identifier and supports multiple
+   authentication methods, such as the commonly-used client secret.  The
+   management of client identifiers and client secrets represents
+   operational challenges, including manual registrations, lifecycle
+   management and the increasing burden of managing client secrets used
+   for authenticating OAuth clients.  Modern cloud-native architectural
+   patterns, like micro-services and other ephemeral compute concepts,
+   allows for on-demand scaling of OAuth clients, which in turn
+   increases the burden on managing the lifecycle of the client and
+   client secrets.
 
    The Secure Production Identity Production Framework (SPIFFE) is a
    graduated project in the Cloud Native Compute Foundation (CNCF) that
@@ -139,10 +140,11 @@ Table of Contents
    requries an additional manual step, or an additional registration
    flow (e.g. Dynamic Client Registration [RFC7591] ).  The registration
    step results in the provisioning of an addditional identifier (the
-   client_id), and frequently an additional secret (the client_secret)
-   used for client authentication and must be secured.  The additional
-   secrets add to the overall challenge of secrets sprawl in large-scale
-   environments, and degrade the risk profile for an environment.
+   client identifier), and frequently an additional secret (the Client
+   Secret) used for client authentication and must be secured.  The
+   additional secrets add to the overall challenge of secrets sprawl in
+   large-scale environments, and degrade the risk profile for an
+   environment.
 
    OAuth deployments in which SPIFFE is already deployed can leverage
    the SPIFFE identifiers and credentials already issued to workloads by
@@ -151,8 +153,8 @@ Table of Contents
    authenticate itself to the OAuth server.  The OAuth authorization
    server verifies the JWT or X.509 certificate, ensuring it was issued
    by a trusted issuer.  The authorization server registers the SPIFFE
-   ID as a client ID, along with additional metadata, if needed, before
-   issuing an Access Token.
+   ID as a client identifier, along with additional metadata, if needed,
+   before issuing an Access Token.
 
    This "register on first use" pattern removes the need for manual pre-
    registration or additional roundtrips and credential registration.
@@ -195,46 +197,46 @@ Table of Contents
    policies.
 
    The OAuth authorization server avoids operational overheads of
-   registering client_id and client_secret values by accepting SPIFFE
-   credentials from a workload acting as an OAuth client participating
-   in an OAuth flow.  The credentials must be signed by a trusted
-   issuer.  If this is the first time the authorization server verifies
-   a credential wth a specific SPIFFE ID, it registers a new client_id,
-   removing the need for an out-of-band registration flow.  The OAuth
-   authorization server may derive a unique client_id from the SPIFFE
-   ID, or it may use the SPIFFE ID as the client_id.  Since the workload
-   is already in possession of a credential that is cryptographically
-   bound to its identifier, no addditional client_secret is needed,
-   removing the operational overhead and securtiy risks of managing
-   long-lived secrets in large-scale deployments that already have
-   SPIFFE credentials.  The OAuth authorization server may register
-   additional metadata if needed.  The authorization server may use a
-   number of mechanissms for obtaining additional metadata.  Metadata
-   may be preconfigured, automatically created, retrieved from a
-   configuration management system, or retrieved from the JWT-SVID, if
-   it was included as additional claims, similar to how Dynamic Client
-   Registration ([RFC7591]) describes how a software statement may be
-   used to convey metadata.
+   registering the client and client secrets by accepting SPIFFE
+   credentials from a workload acting as an OAuth client.  The
+   credentials must be signed by a trusted issuer.  If this is the first
+   time the authorization server verifies a credential with a specific
+   SPIFFE ID, it registers a new client, removing the need for an out-
+   of-band registration flow.  The OAuth authorization server may derive
+   a unique client identifier from the SPIFFE ID, or it may use the
+   SPIFFE ID as the client identifier.  Since the workload is already in
+   possession of a credential that is cryptographically bound to its
+   identifier, no addditional client secret is needed, removing the
+   operational overhead and security risks of managing long-lived
+   secrets in large-scale deployments that already have SPIFFE
+   credentials.  The OAuth authorization server may register additional
+   metadata if needed.  The authorization server may use a number of
+   mechanissms for obtaining additional metadata.  Metadata may be
+   preconfigured, automatically created, retrieved from a configuration
+   management system, or retrieved from the JWT-SVID, if it was included
+   as additional claims, similar to how Dynamic Client Registration
+   ([RFC7591]) describes how a software statement may be used to convey
+   metadata.
 
-   The "register on first use" implementation varies depending whether
-   or not the OAuth flows includes redirection.  In non-redirecting
-   flows (such as Client Credentials or Resource Owner Password
-   Credentials), the OAuth client authenticates and requests tokens
-   directly from the authorization server without the need for user
-   redirection.  Flows with redirection (like Authorization Code Flow)
-   temporarily send users to an external identity provider before
-   returning them to the application with a token or authorization code,
-   which is then used by the OAuth client.  These redirect-based flows
-   rely on the user agent (typically a web browser) to maintain the
-   authentication context and handle the navigation between the
-   application and the identity provider.  These fundamental differences
-   require distinct implementation considerations when implementing
-   client registration on first use.  Redirecting flows need state
-   management to reconnect returning users with their original session
-   after authentication, while non-redirecting flows can create a
-   client_id inline within the same request context.  Properly handling
-   both OAuth patterns ensures a smooth registration experience
-   regardless of the authentication method selected.
+   "Register on first use" varies depending whether or not the OAuth
+   flows includes redirection.  In non-redirecting flows (such as Client
+   Credentials or Resource Owner Password Credentials), the OAuth client
+   authenticates and requests tokens directly from the authorization
+   server without the need for user redirection.  Flows with redirection
+   (like Authorization Code Flow) temporarily send users to an external
+   identity provider before returning them to the application with a
+   token or authorization code, which is then used by the OAuth client.
+   These redirect-based flows rely on the user agent (typically a web
+   browser) to maintain the authentication context and handle the
+   navigation between the application and the identity provider.  These
+   differences require distinct implementation considerations when
+   implementing client registration on first use.  Redirecting flows
+   need state management to reconnect returning users with their
+   original session after authentication, while non-redirecting flows
+   can create a client identifier inline within the same request
+   context.  Properly handling both OAuth patterns ensures a smooth
+   registration experience regardless of the authentication method
+   selected.
 
 3.1.  Client Registration On First Use for Non-Redirecting OAuth Flows
 
@@ -290,11 +292,11 @@ Table of Contents
       acting as an OAuth client by verifying the credentials it
       presented (see [SPIFFE-OAUTH-CLIENT-AUTH]).  If the authentication
       is successful, the authorization server accepts the SPIFFE ID as a
-      valid client ID and checks if it has been registered previously.
-      If it has not been registered, it registers the new SPIFFE ID as a
-      valid client.  The authorization server adds additional metadata
-      if needed, before completing the request and returning an access
-      token.
+      valid client identifier and checks if it has been registered
+      previously.  If it has not been registered, it registers the new
+      SPIFFE ID as a valid client.  The authorization server adds
+      additional metadata if needed, before completing the request and
+      returning an access token.
 
    *  (E) The Oauth client use the access token it retrieved in the
       previous step and use it to acccess the resource server.
@@ -422,7 +424,7 @@ Table of Contents
    [SPIFFE-OAUTH-CLIENT-AUTH].  If the JWT-SVID or X.509-SVID used to
    authenticate the client was issued by a trusted SPIFFE issuer, and
    the authentication succeeds, the SPIFFE ID SHOULD be registered as
-   the client identifier (client_id).
+   the client identifier.
 
 4.2.2.  Redirect flows
 
@@ -433,14 +435,13 @@ Table of Contents
    not interact directly with the authorization server in this initial
    interaction, it is not in a position to authenticate itself using a
    JWT-SVID or X.509-SVID.  The user agent includes a client identifier
-   (the SPIFFE ID) which the authorization server registers as a valid
-   client identifier (client_id) after obtaining additional metadata.
-   The metadata may be derived from the SPIFFE ID, or it may be
-   retrieved from a configuration server.  Details of obtaining the
-   additional metadata is implementation-specific and beyond the scope
-   of this document.  If one or more redirection URIs are obtained from
-   another source, it MUST be the same as that presented by the user
-   agent.
+   (the SPIFFE ID) which the authorization server registers as a new
+   client after obtaining additional metadata.  The metadata may be
+   derived from the SPIFFE ID, or it may be retrieved from a
+   configuration server.  Details of obtaining the additional metadata
+   is implementation-specific and beyond the scope of this document.  If
+   one or more redirection URIs are obtained from another source, it
+   MUST be the same as that presented by the user agent.
 
    Following the redirect back to the client, the client must
    authenticate to the authorization server as described in JWT-SVID or
@@ -454,14 +455,13 @@ Table of Contents
 
 5.  Additional metadata
 
-   Additional metadata may be required when a client identifier
-   (client_id) is first registered.  The OAuth 2.0 Dynamic Client
-   Registration Protocol [RFC7591] defines client metadata that may be
-   used.  If required, client metadata SHOULD be added at the time of
-   registration.  Metadata may be dynamically generated or derived at
-   the time of registration, or it may be retrieved from a system of
-   record using the SPIFFE ID to locate the metadata in an enterprise
-   environment.
+   Additional metadata may be required when a new client is first
+   registered.  The OAuth 2.0 Dynamic Client Registration Protocol
+   [RFC7591] defines client metadata that may be used.  If required,
+   client metadata SHOULD be added at the time of registration.
+   Metadata may be dynamically generated or derived at the time of
+   registration, or it may be retrieved from a system of record using
+   the SPIFFE ID to locate the metadata in an enterprise environment.
 
 5.1.  Metadata as claims in the JWT-SVID
 
@@ -497,11 +497,11 @@ Table of Contents
    the "register on first use" pattern is supported.  This may be
    recorded as the "grant_type" metadata field.
 
-6.  Client ID Lifecycle Management
+6.  Client Lifecycle Management
 
-   The number of client ids registered with an authorization server may
+   The number of clients registered with an authorization server may
    grow significantly over time.  An authorization MAY unregistered a
-   client id if it has not been used for an extended period of time to
+   client if it has not been used for an extended period of time to
    reduce the size of the client registration database.
 
 7.  Security Considerations
