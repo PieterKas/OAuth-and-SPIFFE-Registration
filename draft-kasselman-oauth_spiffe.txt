@@ -338,15 +338,15 @@ Table of Contents
     |   |          |                                 |               |
     |   |          |<----(E)-- Authorization Code ---+               |
     |   +------+---+                                 +---+-----------+
-    |     ^    |                                         |   ^
+    |     ^    |                                         ^   |
     |     |   (D)                                        |   |
     |    (C)   |                                         |   |
     |     |    v                                         |   |
     |   +---------+                                      |   |
-    |   |         |<---(E)-- Authorization Code ---------'   |
+    |   |         |----(F)-- Authorization Code ---------'   |
     |   |  Client |          & Redirection URI               |
     +-->|         |                                          |
-        |         |<---(F)----- Access Token ----------------'
+        |         |<---(G)----- Access Token ----------------'
         +---------+       (w/ Optional Refresh Token)
 
     Figure 2: Client Registration on First Use: Authorization Code Grant
