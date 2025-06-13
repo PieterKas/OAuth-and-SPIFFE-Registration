@@ -281,7 +281,8 @@ Table of Contents
    *  (B) The workload is attested and credentialed by the SPIFFE Issuer
       [SPIFFE].  The SPIFFE Issuer assigns a SPIFFE ID [SPIFFE_ID] as an
       identifier for the workload, along with SPIFFE credentials (e.g.
-      JWT-SVID [SPIFFE_JWT] and X.509-SVID [SPIFFE_X509]).
+      JWT-SVID [SPIFFE_JWT], X.509-SVID [SPIFFE_X509] or other SPIFFE
+      credential types).
 
    *  (C) The workload, acting as an OAuth client, makes a request to
       the authorization server's token endpoint as specified in
