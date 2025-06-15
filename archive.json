@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-06-03T01:52:22.640129+00:00",
+  "timestamp": "2025-06-15T02:02:28.765118+00:00",
   "repo": "PieterKas/OAuth-and-SPIFFE-Registration",
   "labels": [
     {
@@ -55,15 +55,15 @@
       "id": "I_kwDOOooYGs65HQz0",
       "title": "Clarify terminology",
       "url": "https://github.com/PieterKas/OAuth-and-SPIFFE-Registration/issues/2",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "PieterKas",
       "authorAssociation": "OWNER",
       "assignees": [],
       "labels": [],
       "body": "This is a carry-over from @PieterKas, but this PR would be a good chance to fix this too I will mention it:\r\nIn my opinion we should not use the terminology `client_id` and `client_id`, we should use \"client ID\" and \"client secret\" (capitalized only when referred to specifically The Client ID or The Client Secret).\r\n\r\nThe terms `client_id` and `client_secret` should only be used when we are referring specifically to the parameters, which are snake_cased and usually in code formatting.\r\n\r\n_Originally posted by @dagdagdag83 in https://github.com/PieterKas/OAuth-and-SPIFFE-Registration/issues/1#issuecomment-2915672570_\r\n            ",
       "createdAt": "2025-05-31T16:03:04Z",
-      "updatedAt": "2025-05-31T16:37:03Z",
-      "closedAt": null,
+      "updatedAt": "2025-06-13T13:15:59Z",
+      "closedAt": "2025-06-13T13:15:59Z",
       "comments": [
         {
           "author": "PieterKas",
@@ -125,40 +125,56 @@
       "labels": [],
       "body": "Can this step by dynamic or must the SPIFFE issuer be pre-configured for the server?  In other words, can the SPIFFE issuer be dynamically configured as an option?",
       "createdAt": "2025-06-02T18:10:38Z",
-      "updatedAt": "2025-06-02T18:10:38Z",
+      "updatedAt": "2025-06-13T11:17:18Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "PieterKas",
+          "authorAssociation": "OWNER",
+          "body": "I think dynamic registration in itself may be a separate specification. Initially I expect this to be a manual step, or if it is automated, it is deployment specific - it is the equivalent of making a trust decision.",
+          "createdAt": "2025-06-13T11:17:17Z",
+          "updatedAt": "2025-06-13T11:17:17Z"
+        }
+      ]
     },
     {
       "number": 6,
       "id": "I_kwDOOooYGs65cFcP",
       "title": "FIgure 1 Step B",
       "url": "https://github.com/PieterKas/OAuth-and-SPIFFE-Registration/issues/6",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "deansaxe",
       "authorAssociation": "NONE",
       "assignees": [],
       "labels": [],
       "body": "Step B indicates that the x.509-SVID and SVID-JWT are both required to be registered.  Can this be an OR or an AND/OR?  I'm unclear whether both credential types must be supported or whether the AS can choose to support one credential type or both.\n\n",
       "createdAt": "2025-06-02T18:12:26Z",
-      "updatedAt": "2025-06-02T18:12:26Z",
-      "closedAt": null,
-      "comments": []
+      "updatedAt": "2025-06-13T13:17:21Z",
+      "closedAt": "2025-06-13T13:17:21Z",
+      "comments": [
+        {
+          "author": "PieterKas",
+          "authorAssociation": "OWNER",
+          "body": "It should be one or the other that is used for authentication, but typically both can be provisioned (and often is). That is more a SPIFFE deployment thing. In the future this will include a WIT-SVID.",
+          "createdAt": "2025-06-13T11:18:05Z",
+          "updatedAt": "2025-06-13T11:19:52Z"
+        }
+      ]
     },
     {
       "number": 7,
       "id": "I_kwDOOooYGs65cHwm",
       "title": "Figure 2 issues",
       "url": "https://github.com/PieterKas/OAuth-and-SPIFFE-Registration/issues/7",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "deansaxe",
       "authorAssociation": "NONE",
       "assignees": [],
       "labels": [],
       "body": "Step E and F between the client and AS should be relabeled F and G.\n\nStep E seems to have the arrow pointed in the wrong direction.",
       "createdAt": "2025-06-02T18:15:19Z",
-      "updatedAt": "2025-06-02T18:15:19Z",
-      "closedAt": null,
+      "updatedAt": "2025-06-13T13:17:08Z",
+      "closedAt": "2025-06-13T13:17:08Z",
       "comments": []
     },
     {
@@ -174,6 +190,22 @@
       "body": "Section 4.1 says the client SHOULD authenticate.  Should this SHOULD be changed to a MUST to require authN of the client with an SVID-JWT or x.509-SVID?",
       "createdAt": "2025-06-02T18:16:48Z",
       "updatedAt": "2025-06-02T18:16:48Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 12,
+      "id": "I_kwDOOooYGs67Xupc",
+      "title": "Add Dag Sneeggen as contributer",
+      "url": "https://github.com/PieterKas/OAuth-and-SPIFFE-Registration/issues/12",
+      "state": "OPEN",
+      "author": "PieterKas",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2025-06-13T13:19:08Z",
+      "updatedAt": "2025-06-13T13:19:08Z",
       "closedAt": null,
       "comments": []
     }
@@ -213,6 +245,173 @@
           "updatedAt": "2025-05-28T11:55:27Z"
         }
       ],
+      "reviews": []
+    },
+    {
+      "number": 9,
+      "id": "PR_kwDOOooYGs6aXTi3",
+      "title": "Fixed terminology related to client id and secret",
+      "url": "https://github.com/PieterKas/OAuth-and-SPIFFE-Registration/pull/9",
+      "state": "MERGED",
+      "author": "dagdagdag83",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "dagdagdag83"
+      ],
+      "labels": [],
+      "body": "* Unified terminology for client ID and client secret.\r\n* Tried to also clarify the difference between client ID (as in the identifier of a client) and \"the client\" (as in the rather abstract notion of an OAuth client)\r\n\r\nResolves #2 ",
+      "createdAt": "2025-06-13T10:11:22Z",
+      "updatedAt": "2025-06-13T13:15:58Z",
+      "baseRepository": "PieterKas/OAuth-and-SPIFFE-Registration",
+      "baseRefName": "main",
+      "baseRefOid": "5099f91c04647c51da3074aff3131946daae2a69",
+      "headRepository": "dagdagdag83/OAuth-and-SPIFFE-Registration",
+      "headRefName": "Clarify-terminology",
+      "headRefOid": "927f3d657e20f5cb6ebf929542c8c69cfee35ca7",
+      "closedAt": "2025-06-13T13:15:58Z",
+      "mergedAt": "2025-06-13T13:15:58Z",
+      "mergedBy": "PieterKas",
+      "mergeCommit": {
+        "oid": "65cb78b212215ce0730358043f3b513369b90b49"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOOooYGs6uTgyN",
+          "commit": {
+            "abbreviatedOid": "c040193"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "OWNER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-06-13T11:03:47Z",
+          "updatedAt": "2025-06-13T11:03:48Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "Instead of client ID, use client identifier (consistent with other drafts).",
+              "createdAt": "2025-06-13T11:03:47Z",
+              "updatedAt": "2025-06-13T11:03:48Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOOooYGs6uTkrC",
+          "commit": {
+            "abbreviatedOid": "c040193"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "OWNER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-06-13T11:06:59Z",
+          "updatedAt": "2025-06-13T11:06:59Z",
+          "comments": [
+            {
+              "originalPosition": 19,
+              "body": "Suggest change to:\r\n\r\nThe OAuth authorization server avoids operational overheads of registering the client and client secrets by accepting SPIFFE credentials from a workload acting as an OAuth client.",
+              "createdAt": "2025-06-13T11:06:59Z",
+              "updatedAt": "2025-06-13T11:07:00Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOOooYGs6uTpca",
+          "commit": {
+            "abbreviatedOid": "c040193"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "OWNER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-06-13T11:10:20Z",
+          "updatedAt": "2025-06-13T11:10:20Z",
+          "comments": [
+            {
+              "originalPosition": 22,
+              "body": "Change to:\r\n\r\n\"Register on first use\" varies depending whether or not the OAuth flows includes redirection. \r\n\r\nRemove \"fundamental\" from below sentence\r\n\r\nThese fundamental differences require distinct implementation considerations when implementing client registration on first use.",
+              "createdAt": "2025-06-13T11:10:20Z",
+              "updatedAt": "2025-06-13T11:10:20Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOOooYGs6uTq-n",
+          "commit": {
+            "abbreviatedOid": "c040193"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "OWNER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-06-13T11:11:31Z",
+          "updatedAt": "2025-06-13T11:11:32Z",
+          "comments": [
+            {
+              "originalPosition": 42,
+              "body": "write out identifier (consitent with other RFCs)",
+              "createdAt": "2025-06-13T11:11:31Z",
+              "updatedAt": "2025-06-13T11:11:32Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 10,
+      "id": "PR_kwDOOooYGs6aYAOZ",
+      "title": "Clarify example of which spiffe credentials can be used.",
+      "url": "https://github.com/PieterKas/OAuth-and-SPIFFE-Registration/pull/10",
+      "state": "MERGED",
+      "author": "PieterKas",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "See #6",
+      "createdAt": "2025-06-13T11:21:41Z",
+      "updatedAt": "2025-06-13T13:16:22Z",
+      "baseRepository": "PieterKas/OAuth-and-SPIFFE-Registration",
+      "baseRefName": "main",
+      "baseRefOid": "5099f91c04647c51da3074aff3131946daae2a69",
+      "headRepository": "PieterKas/OAuth-and-SPIFFE-Registration",
+      "headRefName": "PieterKas-patch-1",
+      "headRefOid": "349a69b5320927b36c70e6be26b5edd7e6adc0e1",
+      "closedAt": "2025-06-13T13:16:22Z",
+      "mergedAt": "2025-06-13T13:16:22Z",
+      "mergedBy": "PieterKas",
+      "mergeCommit": {
+        "oid": "6bdae8474c14d85db05289ea5da842e8b5a291ff"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 11,
+      "id": "PR_kwDOOooYGs6aYYkw",
+      "title": "Correction to Figure 2",
+      "url": "https://github.com/PieterKas/OAuth-and-SPIFFE-Registration/pull/11",
+      "state": "MERGED",
+      "author": "PieterKas",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "See #7",
+      "createdAt": "2025-06-13T12:05:51Z",
+      "updatedAt": "2025-06-13T13:16:35Z",
+      "baseRepository": "PieterKas/OAuth-and-SPIFFE-Registration",
+      "baseRefName": "main",
+      "baseRefOid": "5099f91c04647c51da3074aff3131946daae2a69",
+      "headRepository": "PieterKas/OAuth-and-SPIFFE-Registration",
+      "headRefName": "PieterKas-patch-2",
+      "headRefOid": "014019548451ef7898ec947b602b2a48f6e776ec",
+      "closedAt": "2025-06-13T13:16:35Z",
+      "mergedAt": "2025-06-13T13:16:35Z",
+      "mergedBy": "PieterKas",
+      "mergeCommit": {
+        "oid": "90a88cd046047adcc038a289bd84e90c8a9d628b"
+      },
+      "comments": [],
       "reviews": []
     }
   ]
