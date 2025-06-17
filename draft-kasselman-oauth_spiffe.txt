@@ -97,7 +97,8 @@ Table of Contents
    9.  References
      9.1.  Normative References
      9.2.  Informative References
-   Acknowledgments
+   Appendix A.  Acknowledgments
+   Appendix B.  Document History
    Contributors
    Author's Address
 
@@ -607,9 +608,18 @@ Table of Contents
               RFC 9700, DOI 10.17487/RFC9700, January 2025,
               <https://www.rfc-editor.org/rfc/rfc9700>.
 
-Acknowledgments
+Appendix A.  Acknowledgments
 
-   TODO acknowledge.
+   The author would like to thank Dmitry Telegin (Backbase), Dan
+   Sneeggen (Signicat) and Dean Saxe (Beyond Identity), Arndt
+   Schwenkschuster (SPIRL) and Marcel Levy (SPIRL) and others (please
+   let us know, if you've been mistakenly omitted) for their valuable
+   input, feedback and general support of this work.
+
+Appendix B.  Document History
+
+   [[ To be removed from the final specification ]] -latest * Initial
+   draft submitted to Datatracker
 
 Contributors
 
