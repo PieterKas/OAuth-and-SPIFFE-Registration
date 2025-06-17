@@ -98,6 +98,7 @@ Table of Contents
      9.1.  Normative References
      9.2.  Informative References
    Acknowledgments
+   Contributors
    Author's Address
 
 1.  Introduction
@@ -609,6 +610,13 @@ Table of Contents
 Acknowledgments
 
    TODO acknowledge.
+
+Contributors
+
+   Dag Sneeggen
+   Signicat
+   Email: dagsne@signicat.com
+
 
 Author's Address
 
