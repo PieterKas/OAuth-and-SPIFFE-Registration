@@ -2,8 +2,8 @@
 
 
 
-Web Authorization Protocol                                  P. Kasselman
-Internet-Draft                                                     SPIRL
+Web Authorization Protocol                                   D. Sneeggen
+Internet-Draft                                                  Signicat
 Intended status: Informational                              19 June 2025
 Expires: 21 December 2025
 
@@ -108,7 +108,6 @@ Table of Contents
      9.2.  Informative References
    Appendix A.  Acknowledgments
    Appendix B.  Document History
-   Contributors
    Author's Address
 
 1.  Introduction
@@ -723,15 +722,8 @@ Appendix B.  Document History
    [[ To be removed from the final specification ]] -latest * Initial
    draft submitted to Datatracker
 
-Contributors
+Author's Address
 
    Dag Sneeggen
    Signicat
    Email: dagsne@signicat.com
-
-
-Author's Address
-
-   Pieter Kasselman
-   SPIRL
-   Email: pieter@spirl.com
