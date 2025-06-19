@@ -191,6 +191,20 @@ In OAuth flows that rely on redirection, the initial interaction with the author
 * (F)  The client requests an access token from the authorization server's token endpoint by including the authorization code received in the previous step.  When making the request, the client authenticates with the authorization server. It authenticates itself using either a JWT-SVID or X.509-SVID as defined in {{SPIFFE-OAUTH-CLIENT-AUTH}}. The client includes the redirection URI used to obtain the authorization code for verification.
 * (G)  The authorization server authenticates the client, validates the authorization code, and ensures that the redirection URI received matches the URI used to redirect the client in step (E). If valid, the authorization server responds back with an access token and, optionally, a refresh token.
 
+## Client Registration Error Response
+When the registration attempt has failed or been rejected, the authorization server MUST return an error response that conforms to the expected error response for the given OAuth 2.0 endpoint. Additional error information may or may not be included in the error response.
+
+TODO: Generally improve error section, inline with RFC 6749. Consider also how to return information which can aid the workload or workload owners to resolve failed registration or complete an incomplete registration.
+
+### Authentication Failed
+When a SPIFFE credential is missing, invalid, or for any reason rejected, the authorization server returns an error response with an HTTP 401 status code.
+
+### Failed Registration
+When a request to register a client fails due to disallowed metadata (e.g., http redirect URIs if only https is allowed, or an access token lifetime exceeding maximum allowed) or invalid metadata, the authorization server returns an error response with an HTTP 400 status code.
+
+### Incomplete Registration
+When additional post-registration setup is required, there can be cases where the client cannot be used. In such scenarios, the authorization server returns an error response with an HTTP 403 status code. This error could also be returned in cases where there is an asynchronous event or manual operation that is not yet completed.
+
 # SPIFFE and OAuth Trust Relationship
 SPIFFE makes provision for multiple Trust Domains, which are represented in the workload identifier. Trust Domains offers additional segmentation withing a SPIFFE deployment and each Trust Domain has its own keys for signing credentials. The OAuth authorization server may choose to trust one or more trust domains as defined in {{SPIFFE-OAUTH-CLIENT-AUTH}}.
 
@@ -223,12 +237,30 @@ An authorization server MAY register a client with a default set of scopes or re
 ## Grant Types
 Authorization servers MAY choose to limit the grant types for which the "register on first use" pattern is supported. This may be recorded as the "grant_type" metadata field.
 
-# Client Lifecycle Management
-The number of clients registered with an authorization server may grow significantly over time. An authorization MAY unregistered a client if it has not been used for an extended period of time to reduce the size of the client registration database.
+# Post-Registration Client Lifecycle Management
+After registration, there MUST be an initial client record with a direct link between the SPIFFE identifier in the SPIFFE credentials and the OAuth client identifier. However, additional steps MAY be required to make the client operational, such as missing configuration or entitlement information. This is particularly relevant for complex enterprise environments.
+
+## Configuration
+After registration, a client MUST be configured with the necessary operational metadata to function correctly and securely. An authorization server may use a number of mechanisms for obtaining metadata. Metadata may be statically preconfigured, automatically or manually created, or retrieved from a configuration management system. This can happen instantaneously after registration or it can be asynchronous. If metadata is added asynchronously, the authorization server MUST return an "Incomplete Registration" error whenever the client interacts with the authorization server, until the additional metadata has been added.
+
+## Entitlement
+Entitlement defines the specific permissions and/or access rights granted to the client. This is a critical stage that determines what the configured client is permitted to do and request. Entitlements can include; grant types, scopes, audience restrictions, or fine-grained permissions.
+
+In enterprise environments, the permissions and access rights granted to a client can be highly dynamic and complex. As such, there might be several out-of-band operations; creating a principal for the client, assigning permissions and roles to the client in a PRP system, assigning attributes to the workload, or any other mechanism used for making access rights evaluations.
+
+## Updates
+Updates to client configuration or entitlement may occur using the same "register on first use" mechanism and can even be entirely opaque to the workload. However, special care must be taken to ensure this happens securely and in line with organizational policies.
+
+## Deregistration
+An authorization server MAY automatically expire clients. This avoids a large number of unused clients identifiers from accumulating. If a client identifier is deleted, it can re-register using the "register-on-first-use" pattern described in this document.
 
 # Security Considerations
 
-TODO Security
+TODO: Security. Consider discussing error responses (include enough info to be helpful, but not too much to aid attackers.)
+
+## Entitlement Updates
+
+If entitlement updates, such as client permissions, can be updated dynamically, be aware that this can lead to potential privilege escalation if a workload is compromised. Similarly, adding new redirects to an existing client can also lead to potential issues. The implementer needs to make clear decisions on whether updates to clients are allowed and, if so, what types of updates are permitted. Risk analysis could also be introduced to determine what types of client updates are allowed.
 
 
 # IANA Considerations
