@@ -5,6 +5,7 @@
 <meta content="Common,Latin" name="scripts">
 <meta content="initial-scale=1.0" name="viewport">
 <title>OAuth Client Registration on First Use with SPIFFE</title>
+<meta content="Pieter Kasselman" name="author">
 <meta content="Dag Sneeggen" name="author">
 <meta content='
        The OAuth framework is a widely deployed authorization protocol standard that enables applications to obtain limited access to user resources. OAuth clients must be registered with the OAuth authorization server, which poses significant operational challenges in dynamically scaling environments. The Secure Production Identity Framework For Everyone (SPIFFE) is a graduated Cloud Native Compute Foundation project designed to dynamically attest and verify workload identity. This draft describes how workloads with SPIFFE credentials can be used with OAuth to lessen the operational burden of client registration through a "register on first use" principle. 
@@ -1051,7 +1052,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <td class="right">June 2025</td>
 </tr></thead>
 <tfoot><tr>
-<td class="left">Sneeggen</td>
+<td class="left">Kasselman &amp; Sneeggen</td>
 <td class="center">Expires 21 December 2025</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
@@ -1071,8 +1072,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="intended-status">Informational</dd>
 <dt class="label-expires">Expires:</dt>
 <dd class="expires"><time datetime="2025-12-21">21 December 2025</time></dd>
-<dt class="label-authors">Author:</dt>
+<dt class="label-authors">Authors:</dt>
 <dd class="authors">
+<div class="author">
+      <div class="author-name">P. Kasselman</div>
+<div class="org">SPIRL</div>
+</div>
 <div class="author">
       <div class="author-name">D. Sneeggen</div>
 <div class="org">Signicat</div>
@@ -1262,7 +1267,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
             <p id="section-toc.1-1.11.1"><a href="#appendix-B" class="auto internal xref">Appendix B</a>.  <a href="#name-document-history" class="internal xref">Document History</a></p>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.12">
-            <p id="section-toc.1-1.12.1"><a href="#appendix-C" class="auto internal xref"></a><a href="#name-authors-address" class="internal xref">Author's Address</a></p>
+            <p id="section-toc.1-1.12.1"><a href="#appendix-C" class="auto internal xref"></a><a href="#name-authors-addresses" class="internal xref">Authors' Addresses</a></p>
 </li>
         </ul>
 </nav>
@@ -1862,9 +1867,17 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
 </div>
 <div id="authors-addresses">
 <section id="appendix-C">
-      <h2 id="name-authors-address">
-<a href="#name-authors-address" class="section-name selfRef">Author's Address</a>
+      <h2 id="name-authors-addresses">
+<a href="#name-authors-addresses" class="section-name selfRef">Authors' Addresses</a>
       </h2>
+<address class="vcard">
+        <div dir="auto" class="left"><span class="fn nameRole">Pieter Kasselman</span></div>
+<div dir="auto" class="left"><span class="org">SPIRL</span></div>
+<div class="email">
+<span>Email:</span>
+<a href="mailto:pieter@spirl.com" class="email">pieter@spirl.com</a>
+</div>
+</address>
 <address class="vcard">
         <div dir="auto" class="left"><span class="fn nameRole">Dag Sneeggen</span></div>
 <div dir="auto" class="left"><span class="org">Signicat</span></div>

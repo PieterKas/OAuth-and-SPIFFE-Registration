@@ -2,10 +2,11 @@
 
 
 
-Web Authorization Protocol                                   D. Sneeggen
-Internet-Draft                                                  Signicat
-Intended status: Informational                              19 June 2025
-Expires: 21 December 2025
+Web Authorization Protocol                                  P. Kasselman
+Internet-Draft                                                     SPIRL
+Intended status: Informational                               D. Sneeggen
+Expires: 21 December 2025                                       Signicat
+                                                            19 June 2025
 
 
            OAuth Client Registration on First Use with SPIFFE
@@ -108,7 +109,7 @@ Table of Contents
      9.2.  Informative References
    Appendix A.  Acknowledgments
    Appendix B.  Document History
-   Author's Address
+   Authors' Addresses
 
 1.  Introduction
 
@@ -722,7 +723,12 @@ Appendix B.  Document History
    [[ To be removed from the final specification ]] -latest * Initial
    draft submitted to Datatracker
 
-Author's Address
+Authors' Addresses
+
+   Pieter Kasselman
+   SPIRL
+   Email: pieter@spirl.com
+
 
    Dag Sneeggen
    Signicat
