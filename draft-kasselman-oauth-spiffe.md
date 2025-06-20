@@ -2,7 +2,7 @@
 title: "OAuth Client Registration on First Use with SPIFFE"
 category: info
 
-docname: draft-kasselman-oauth_spiffe-latest
+docname: draft-kasselman-oauth-spiffe-latest
 submissiontype: IETF  # also: "independent", "editorial", "IAB", or "IRTF"
 number:
 date:
