@@ -5,8 +5,8 @@
 Web Authorization Protocol                                  P. Kasselman
 Internet-Draft                                                     SPIRL
 Intended status: Informational                               D. Sneeggen
-Expires: 21 December 2025                                       Signicat
-                                                            19 June 2025
+Expires: 22 December 2025                                       Signicat
+                                                            20 June 2025
 
 
            OAuth Client Registration on First Use with SPIFFE
@@ -57,7 +57,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 21 December 2025.
+   This Internet-Draft will expire on 22 December 2025.
 
 Copyright Notice
 
@@ -712,11 +712,11 @@ Table of Contents
 
 Appendix A.  Acknowledgments
 
-   The author would like to thank Dmitry Telegin (Backbase), Dag
-   Sneeggen (Signicat) and Dean Saxe (Beyond Identity), Arndt
-   Schwenkschuster (SPIRL) and Marcel Levy (SPIRL) and others (please
-   let us know, if you've been mistakenly omitted) for their valuable
-   input, feedback and general support of this work.
+   The author would like to thank Dmitry Telegin (Backbase), Dean Saxe
+   (Beyond Identity), Arndt Schwenkschuster (SPIRL) and Marcel Levy
+   (SPIRL) and others (please let us know, if you've been mistakenly
+   omitted) for their valuable input, feedback and general support of
+   this work.
 
 Appendix B.  Document History
 
