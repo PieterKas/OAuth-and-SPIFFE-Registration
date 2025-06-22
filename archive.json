@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-06-19T01:53:40.189033+00:00",
+  "timestamp": "2025-06-22T02:01:41.721645+00:00",
   "repo": "PieterKas/OAuth-and-SPIFFE-Registration",
   "labels": [
     {
@@ -238,7 +238,7 @@
       "id": "I_kwDOOooYGs68Isi7",
       "title": "Update Client Lifecycle management",
       "url": "https://github.com/PieterKas/OAuth-and-SPIFFE-Registration/issues/17",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "PieterKas",
       "authorAssociation": "OWNER",
       "assignees": [
@@ -247,8 +247,8 @@
       "labels": [],
       "body": "Add concepts of post-registration lifecycle management to the lifecycel management section:\n\n1. Configuration\n2. Entitlement\n3. Updates\n4. Unregister",
       "createdAt": "2025-06-18T10:51:08Z",
-      "updatedAt": "2025-06-18T10:51:08Z",
-      "closedAt": null,
+      "updatedAt": "2025-06-19T19:03:37Z",
+      "closedAt": "2025-06-19T19:03:37Z",
       "comments": []
     },
     {
@@ -256,7 +256,7 @@
       "id": "I_kwDOOooYGs68Iwth",
       "title": "Add Error Codes",
       "url": "https://github.com/PieterKas/OAuth-and-SPIFFE-Registration/issues/18",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "PieterKas",
       "authorAssociation": "OWNER",
       "assignees": [
@@ -265,7 +265,75 @@
       "labels": [],
       "body": "Add a section on error codes:\n\ne.g. 403\n\n1. Registration failed, \n2. Registration complete but additional config needed.\n\nAlso 401 - authentication failed.",
       "createdAt": "2025-06-18T10:56:58Z",
-      "updatedAt": "2025-06-18T10:56:58Z",
+      "updatedAt": "2025-06-19T19:05:46Z",
+      "closedAt": "2025-06-19T19:05:46Z",
+      "comments": []
+    },
+    {
+      "number": 20,
+      "id": "I_kwDOOooYGs68ayru",
+      "title": "Add Dag Sneeggen as a co-author",
+      "url": "https://github.com/PieterKas/OAuth-and-SPIFFE-Registration/issues/20",
+      "state": "OPEN",
+      "author": "PieterKas",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2025-06-19T19:05:35Z",
+      "updatedAt": "2025-06-19T19:05:35Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 21,
+      "id": "I_kwDOOooYGs68ay-o",
+      "title": "Refine Error Descriptions",
+      "url": "https://github.com/PieterKas/OAuth-and-SPIFFE-Registration/issues/21",
+      "state": "OPEN",
+      "author": "PieterKas",
+      "authorAssociation": "OWNER",
+      "assignees": [
+        "dagdagdag83"
+      ],
+      "labels": [],
+      "body": "",
+      "createdAt": "2025-06-19T19:06:23Z",
+      "updatedAt": "2025-06-19T19:06:23Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 22,
+      "id": "I_kwDOOooYGs68azJP",
+      "title": "Add Security Considerations on Lifecycle Management",
+      "url": "https://github.com/PieterKas/OAuth-and-SPIFFE-Registration/issues/22",
+      "state": "OPEN",
+      "author": "PieterKas",
+      "authorAssociation": "OWNER",
+      "assignees": [
+        "dagdagdag83"
+      ],
+      "labels": [],
+      "body": "",
+      "createdAt": "2025-06-19T19:06:51Z",
+      "updatedAt": "2025-06-19T19:06:51Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 23,
+      "id": "I_kwDOOooYGs68bpdn",
+      "title": "Cleanup duplication between sections Additional metadata & lifecycle mgmt",
+      "url": "https://github.com/PieterKas/OAuth-and-SPIFFE-Registration/issues/23",
+      "state": "OPEN",
+      "author": "dagdagdag83",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2025-06-19T21:28:35Z",
+      "updatedAt": "2025-06-19T21:28:35Z",
       "closedAt": null,
       "comments": []
     }
@@ -563,26 +631,211 @@
       "id": "PR_kwDOOooYGs6bIzIN",
       "title": "Expand client lifecycle management & add error response",
       "url": "https://github.com/PieterKas/OAuth-and-SPIFFE-Registration/pull/19",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "dagdagdag83",
       "authorAssociation": "COLLABORATOR",
-      "assignees": [],
+      "assignees": [
+        "dagdagdag83"
+      ],
       "labels": [],
       "body": "* Greatly expands section 6, changes title to \"Post-Registration Client Lifecycle Management\".\r\n* Introduces more granular client lifecycle stages.\r\n* Adds section \"Client Registration Error Response\".\r\n\r\nResolves #17 & #18 ",
       "createdAt": "2025-06-18T20:03:24Z",
-      "updatedAt": "2025-06-18T20:03:25Z",
+      "updatedAt": "2025-06-19T19:03:36Z",
       "baseRepository": "PieterKas/OAuth-and-SPIFFE-Registration",
       "baseRefName": "main",
       "baseRefOid": "a6a7fc89d9ac6ddcc5a6caad44640d464ea996b9",
       "headRepository": "dagdagdag83/OAuth-and-SPIFFE-Registration",
       "headRefName": "expand-client-lifecycle-management",
-      "headRefOid": "b3edb67be580564583522202d1bd68a9a955d02b",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "5569a156fb0123daf510a157d026198dcdb0ae44",
+      "closedAt": "2025-06-19T19:03:36Z",
+      "mergedAt": "2025-06-19T19:03:36Z",
+      "mergedBy": "PieterKas",
+      "mergeCommit": {
+        "oid": "c7593b0175b227dcd1c5b05840d64495c8aec6d8"
+      },
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOOooYGs6vcwbb",
+          "commit": {
+            "abbreviatedOid": "b3edb67"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "OWNER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-06-19T16:03:34Z",
+          "updatedAt": "2025-06-19T16:03:35Z",
+          "comments": [
+            {
+              "originalPosition": 8,
+              "body": ">Care must be taken to return enough useful information, but not so much as to potentially aid malicious actors.\r\n\r\nI would suggest removing this and instead be explicit about error codes instead or error conditions that are returned (expired, signature not verified, etc). Leaving it vague like this will cause  interop issues. It may be appropriate to add a \"security considerations\" section and discuss it more there. In the near term this can be left as a TODO.",
+              "createdAt": "2025-06-19T16:03:34Z",
+              "updatedAt": "2025-06-19T16:03:35Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOOooYGs6vcx3j",
+          "commit": {
+            "abbreviatedOid": "b3edb67"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "OWNER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-06-19T16:06:01Z",
+          "updatedAt": "2025-06-19T16:06:01Z",
+          "comments": [
+            {
+              "originalPosition": 11,
+              "body": "> The error response should indicate what was invalid or disallowed, and ideally how it can be resolved.\r\n\r\nThis is a good principle, but does not help interoperability - - perhaps have a TODO and we can decide later?\r\n\r\n",
+              "createdAt": "2025-06-19T16:06:01Z",
+              "updatedAt": "2025-06-19T16:06:02Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOOooYGs6vczVx",
+          "commit": {
+            "abbreviatedOid": "b3edb67"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "OWNER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-06-19T16:09:14Z",
+          "updatedAt": "2025-06-19T16:09:15Z",
+          "comments": [
+            {
+              "originalPosition": 4,
+              "body": "As a general thought on the error response section, perhaps take a look at RFC 6749  - one idea would b to keep error responses and how they are documented consistent with that draft. https://datatracker.ietf.org/doc/html/rfc6749#page-45\r\n\r\nFor now, we can leave the details as a TODO. We can then add an issue to flesh out the details.",
+              "createdAt": "2025-06-19T16:09:15Z",
+              "updatedAt": "2025-06-19T16:09:15Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOOooYGs6vczmQ",
+          "commit": {
+            "abbreviatedOid": "b3edb67"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "OWNER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-06-19T16:09:47Z",
+          "updatedAt": "2025-06-19T16:09:47Z",
+          "comments": [
+            {
+              "originalPosition": 14,
+              "body": "Similar thoughts as previous two sections",
+              "createdAt": "2025-06-19T16:09:47Z",
+              "updatedAt": "2025-06-19T16:09:47Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOOooYGs6vc0T0",
+          "commit": {
+            "abbreviatedOid": "b3edb67"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "OWNER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-06-19T16:11:07Z",
+          "updatedAt": "2025-06-19T16:11:08Z",
+          "comments": [
+            {
+              "originalPosition": 26,
+              "body": "additional work -> additional steps MAY be required\r\n\r\nor entitlement -> or entitlement information.",
+              "createdAt": "2025-06-19T16:11:07Z",
+              "updatedAt": "2025-06-19T16:11:08Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOOooYGs6vc5NP",
+          "commit": {
+            "abbreviatedOid": "b3edb67"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "OWNER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-06-19T16:21:46Z",
+          "updatedAt": "2025-06-19T16:21:47Z",
+          "comments": [
+            {
+              "originalPosition": 29,
+              "body": "A client MUST be configured with the necessary operational metadata to function correctly and securely. An authorization server may use a number of mechanisms for obtaining metadata. Metadata may be statically preconfigured, automatically or manually created, or retrieved from a configuration management system. This can happen instantaneously after registration or it can be asynchronous. If metadata is added asynchronously, the authorization server MUST return an \"Incomplete Registration\" error whenever the client interacts with the authorization server, until the additional metadata has been added.",
+              "createdAt": "2025-06-19T16:21:46Z",
+              "updatedAt": "2025-06-19T16:21:47Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOOooYGs6vc7IK",
+          "commit": {
+            "abbreviatedOid": "b3edb67"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "OWNER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-06-19T16:24:22Z",
+          "updatedAt": "2025-06-19T16:24:22Z",
+          "comments": [
+            {
+              "originalPosition": 37,
+              "body": "Perhaps seperate out the discussion on doing updates, and discuss the security considerations in the Security Considerations section under \"Entitlement Updates\" as the heading.",
+              "createdAt": "2025-06-19T16:24:22Z",
+              "updatedAt": "2025-06-19T16:24:22Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOOooYGs6vc-cf",
+          "commit": {
+            "abbreviatedOid": "b3edb67"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "OWNER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-06-19T16:29:37Z",
+          "updatedAt": "2025-06-19T16:29:37Z",
+          "comments": [
+            {
+              "originalPosition": 40,
+              "body": "Unregister may be a better word choice (not sure, just feels like human unregistered, so readers might understand that better)\r\n\r\nAlso spell out TTL (time to live). or remove it. perhaps something like:\r\n\r\n An authorization server MAY automatically expire clients. This avoids a large number of unused clients identifiers from accumulating. If a client identifier is deleted, it can re-register using the \"register-on-first-use\" pattern described in this document.",
+              "createdAt": "2025-06-19T16:29:37Z",
+              "updatedAt": "2025-06-19T16:29:37Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOOooYGs6vdtRr",
+          "commit": {
+            "abbreviatedOid": "b3edb67"
+          },
+          "author": "dagdagdag83",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-06-19T18:33:33Z",
+          "updatedAt": "2025-06-19T18:33:33Z",
+          "comments": [
+            {
+              "originalPosition": 4,
+              "body": "I agree, the error section is generally not at the level it should be. RFC 6749 is a good example. I added a TODO.",
+              "createdAt": "2025-06-19T18:33:33Z",
+              "updatedAt": "2025-06-19T18:33:34Z"
+            }
+          ]
+        }
+      ]
     }
   ]
 }
