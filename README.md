@@ -4,7 +4,7 @@
 
 This is the working area for the individual Internet-Draft, "OAuth Client Registration on First Use with SPIFFE".
 
-* [Editor's Copy](https://PieterKas.github.io/OAuth-and-SPIFFE/#go.draft-kasselman-oauth-spiffe.html)
+* [Editor's Copy](https://PieterKas.github.io/OAuth-and-SPIFFE-Registration/#go.draft-kasselman-oauth-spiffe.html)
 * [Datatracker Page](https://datatracker.ietf.org/doc/draft-kasselman-oauth-spiffe)
 * [Individual Draft](https://datatracker.ietf.org/doc/html/draft-kasselman-oauth-spiffe)
 * [Compare Editor's Copy to Individual Draft](https://PieterKas.github.io/OAuth-and-SPIFFE/#go.draft-kasselman-oauth-spiffe.diff)
